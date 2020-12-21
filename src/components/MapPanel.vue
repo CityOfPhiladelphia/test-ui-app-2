@@ -153,8 +153,8 @@ export default {
 
   .map-panel-class {
     position: relative;
-    height: 500px;
-    width: 500px;
+    height: 100%;
+    width: 100%;
   }
 
 </style>

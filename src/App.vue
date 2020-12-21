@@ -1,29 +1,39 @@
 <template>
-  <div id="app">
+  <div class="app">
     <app-header
       :app-title="$config.app.title"
     />
+    <!-- :isSticky="true" -->
 
-    <div class="main-content">
+    <div
+      class="main-content columns"
+    >
+      <div class="column">
+        <input-form>
+          <textbox
+            v-model="myValue"
+            placeholder="Search an address"
+            label="Search an address in Philadelphia"
+          />
+          <button
+            slot="submit"
+            class="is-cta button"
+            @click.prevent="handleSubmit"
+          >
+            Submit
+          </button>
+        </input-form>
+      </div>
 
-      <input-form>
-
-        <textbox
-          v-model="myValue"
-          placeholder="Search an address"
-          label="Search an address in Philadelphia"
-        />
-        <button
-          slot="submit"
-          class="is-cta button"
-          @click.prevent="handleSubmit"
-        >
-          Submit
-        </button>
-      </input-form>
+      <div class="column">
+        <map-panel />
+      </div>
     </div>
 
-    <map-panel />
+    <app-footer
+      :isSticky="true"
+    >
+    </app-footer>
 
   </div>
 </template>
@@ -33,6 +43,7 @@
 import 'mapbox-gl/dist/mapbox-gl.css';
 import {
   AppHeader,
+  AppFooter,
   InputForm,
   Textbox,
 } from '@phila/phila-ui';
@@ -52,6 +63,7 @@ export default {
   name: 'App',
   components: {
     AppHeader,
+    AppFooter,
     InputForm,
     Textbox,
     MapPanel,
@@ -73,7 +85,8 @@ export default {
   @import "./assets/scss/main.scss";
 
   .main-content {
-    margin-top: 80px;
+    height: calc(100vh - 100px);
+    margin-top: 70px;
   }
 
 </style>
