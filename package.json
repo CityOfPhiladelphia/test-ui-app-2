@@ -11,7 +11,9 @@
     "@phila/phila-ui": "^2.0.0",
     "@phila/vue-datafetch": "^1.4.8",
     "@phila/vue-mapping": "^2.2.10",
+    "bulma": "^0.9.1",
     "core-js": "^3.6.5",
+    "vee-validate": "^3.4.5",
     "vue": "^2.6.11"
   },
   "devDependencies": {

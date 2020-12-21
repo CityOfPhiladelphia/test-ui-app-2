@@ -3,21 +3,11 @@ import configMixin from './util/config-mixin';
 import createStore from './store';
 import config from './config.js';
 import controllerMixin from '@phila/vue-datafetch/src/controller.js';
-
 import App from './App.vue';
-
-Vue.config.productionTip = false;
-// Vue.use(Vuex);
-
 import { ResponsiveHelpers } from '@phila/phila-ui';
 
+Vue.config.productionTip = false;
 Vue.use(ResponsiveHelpers);
-
-// let config = {
-//   map: {
-//     containerClass: 'map-container',
-//   },
-// };
 
 // create store
 const store = createStore(config);

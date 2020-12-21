@@ -1,42 +1,29 @@
 <template>
   <div id="app">
     <app-header
-      :app-title="'test'"
+      :app-title="$config.app.title"
     />
 
-    <div
-      id="map-panel"
-      class='map-panel-class'
-    >
-    <!-- :class="mapPanelClass" -->
+    <div class="main-content">
 
-      <MglMap
-        :map-style.sync="mbStyle"
-        :zoom="18"
-        :center="mapCenter"
-      >
+      <input-form>
 
-        <MglRasterLayer
-          v-for="(basemapSource, key) in basemapSources"
-          v-if="activeBasemap === key"
-          :key="key"
-          :source-id="activeBasemap"
-          :layer-id="activeBasemap"
-          :layer="basemapSource.layer"
-          :source="basemapSource.source"
+        <textbox
+          v-model="myValue"
+          placeholder="Search an address"
+          label="Search an address in Philadelphia"
         />
-
-        <MglRasterLayer
-          v-for="(basemapLabelSource, key) in basemapLabelSources"
-          v-if="tiledLayers.includes(key)"
-          :key="key"
-          :source-id="key"
-          :layer-id="key"
-          :layer="basemapLabelSource.layer"
-          :source="basemapLabelSource.source"
-        />
-      </MglMap>
+        <button
+          slot="submit"
+          class="is-cta button"
+          @click.prevent="handleSubmit"
+        >
+          Submit
+        </button>
+      </input-form>
     </div>
+
+    <map-panel />
 
   </div>
 </template>
@@ -44,100 +31,39 @@
 <script>
 
 import 'mapbox-gl/dist/mapbox-gl.css';
-import { AppHeader } from '@phila/phila-ui';
+import {
+  AppHeader,
+  InputForm,
+  Textbox,
+} from '@phila/phila-ui';
+
+// import { ValidationObserver, withValidation, extend } from 'vee-validate';
+import MapPanel from './components/MapPanel.vue';
+
+// import { required } from 'vee-validate/dist/rules';
+// extend('required', {
+//   ...required,
+//   message: 'This field is required',
+// });
+
+// const VeeTextbox = withValidation(Textbox);
 
 export default {
   name: 'App',
   components: {
     AppHeader,
-    MglMap: () => import(/* webpackChunkName: "pvm_MglMap" */'@phila/vue-mapping/src/mapbox/map/GlMap.vue'),
-    MglRasterLayer: () => import(/* webpackChunkName: "pvm_MglRasterLayer" */'@phila/vue-mapping/src/mapbox/layer/RasterLayer.vue'),
+    InputForm,
+    Textbox,
+    MapPanel,
   },
-  data() {
-    const data = {
-      mapCenter: [ -75.163471, 39.953338 ],
-      activeBasemap: 'pwd',
-      tiledLayers: [ 'cityBasemapLabels' ],
-      mbStyle: {
-        version: 8,
-        sources: {
-          pwd: {
-            tiles: [
-              'https://tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap/MapServer/tile/{z}/{y}/{x}',
-            ],
-            type: 'raster',
-            tileSize: 256,
-          },
-        },
-        layers: [
-          {
-            id: 'pwd',
-            type: 'raster',
-            source: 'pwd',
-          },
-        ],
-      },
+  data () {
+    return {
+      myValue: '',
     };
-    return data;
   },
-  computed: {
-    basemapSources() {
-      return {
-        pwd: {
-          source: {
-            tiles: [
-              'https://tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap/MapServer/tile/{z}/{y}/{x}',
-              // '//tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap_Labels/MapServer/tile/{z}/{y}/{x}'
-            ],
-            type: 'raster',
-            tileSize: 256,
-          },
-          layer: {
-            id: 'pwd',
-            type: 'raster',
-          },
-        },
-        imagery2019: {
-          source: {
-            tiles: [
-              'https://tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityImagery_2019_3in/MapServer/tile/{z}/{y}/{x}',
-              // '//tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap_Labels/MapServer/tile/{z}/{y}/{x}'
-            ],
-            type: 'raster',
-            tileSize: 256,
-          },
-          layer: {
-            id: 'imagery2019',
-            type: 'raster',
-          },
-        },
-      };
-    },
-    basemapLabelSources() {
-      return {
-        cityBasemapLabels: {
-          source: {
-            tiles: [ 'https://tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap_Labels/MapServer/tile/{z}/{y}/{x}' ],
-            type: 'raster',
-            tileSize: 256,
-          },
-          layer: {
-            id: 'cityBasemapLabels',
-            type: 'raster',
-          },
-        },
-        imageryBasemapLabels: {
-          source: {
-            tiles: [ 'https://tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityImagery_Labels/MapServer/tile/{z}/{y}/{x}' ],
-            type: 'raster',
-            tileSize: 256,
-          },
-          layer: {
-            id: 'imageryBasemapLabels',
-            type: 'raster',
-          },
-        },
-      };
+  methods: {
+    handleSubmit() {
+      this.$controller.handleSearchFormSubmit(this.myValue);
     },
   },
 };
@@ -146,10 +72,8 @@ export default {
 <style lang="scss">
   @import "./assets/scss/main.scss";
 
-  .map-panel-class {
-    position: relative;
-    height: 300px;
-    width: 200px;
+  .main-content {
+    margin-top: 80px;
   }
 
 </style>
