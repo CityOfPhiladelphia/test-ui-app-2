@@ -3,12 +3,23 @@
     <app-header
       :app-title="$config.app.title"
       :is-sticky="true"
-    />
+    >
+      <mobile-nav slot="mobile-nav">
+        <ul>
+          <li>
+            <a href="/home">Home</a>
+          </li>
+          <li>
+            <a href="/about">About</a>
+          </li>
+        </ul>
+      </mobile-nav>
+    </app-header>
 
     <main
       class="main no-padding columns"
     >
-      <div class="column">
+      <div class="column overflows">
         <input-form>
           <textbox
             v-model="myValue"
@@ -23,6 +34,17 @@
             Submit
           </button>
         </input-form>
+
+        <div
+          v-for="item in currentData"
+          :key="item.cartodb_id"
+        >
+          <expand-collapse
+            :item="item"
+          >
+          </expand-collapse>
+        </div>
+
       </div>
 
       <div class="column no-padding">
@@ -35,6 +57,14 @@
       :is-sticky="true"
       :is-hidden-mobile="true"
     >
+      <ul>
+        <li>
+          <a href="/about">About</a>
+        </li>
+        <li>
+          <a href="/terms-and-conditions">Terms & Conditions</a>
+        </li>
+      </ul>
     </app-footer>
 
   </div>
@@ -42,10 +72,10 @@
 
 <script>
 
-import Vue from 'vue';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import {
   AppHeader,
+  MobileNav,
   AppFooter,
   InputForm,
   Textbox,
@@ -53,6 +83,7 @@ import {
 
 // import { ValidationObserver, withValidation, extend } from 'vee-validate';
 import MapPanel from './components/MapPanel.vue';
+import ExpandCollapse from './components/ExpandCollapse.vue';
 
 // import { required } from 'vee-validate/dist/rules';
 // extend('required', {
@@ -66,21 +97,41 @@ export default {
   name: 'App',
   components: {
     AppHeader,
+    MobileNav,
     AppFooter,
     InputForm,
     Textbox,
     MapPanel,
+    ExpandCollapse,
   },
   data () {
     return {
       myValue: '',
     };
   },
+  computed: {
+    currentData() {
+      let value = {};
+      if (this.$store.state.sources.immigrant && this.$store.state.sources.immigrant.data) {
+        value = this.$store.state.sources.immigrant.data.rows;
+      } else {
+        value = {};
+      }
+      return value;
+    },
+  },
   created() {
     window.addEventListener("resize", this.handleResize);
   },
   mounted() {
+    console.log('App.vue this.$config:', this.$config);
     this.handleResize();
+
+    if (this.$config.dataSources) {
+      console.log('App.vue mounted, there are dataSources');
+      this.$controller.dataManager.fetchData();
+    }
+
   },
   methods: {
     handleResize () {
@@ -115,6 +166,10 @@ export default {
 
   .no-padding {
     padding: 0px;
+  }
+
+  .overflows {
+    overflow-y: scroll;
   }
 
 </style>

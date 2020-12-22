@@ -1,8 +1,8 @@
 <template>
-  <div
+  <!-- <div
     id="map-panel"
-    class='map-panel-class'
-  >
+  > -->
+  <!-- class='map-panel-class' -->
 
     <MglMap
       :map-style.sync="mbStyle"
@@ -30,7 +30,7 @@
         :source="basemapLabelSource.source"
       />
     </MglMap>
-  </div>
+  <!-- </div> -->
 
 </template>
 
@@ -152,7 +152,8 @@ export default {
   @import "../assets/scss/main.scss";
 
   .map-panel-class {
-    position: relative;
+    // position: relative;
+    min-height: 300px;
     height: 100%;
     width: 100%;
   }

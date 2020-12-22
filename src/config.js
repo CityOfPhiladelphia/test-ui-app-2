@@ -1,3 +1,5 @@
+import immigrant from './data-sources/immigrant';
+
 const config = {
   app: {
     title: '@phila/phila-ui and @phila/vue-mapping',
@@ -15,6 +17,12 @@ const config = {
   },
   map: {
     containerClass: 'map-container',
+  },
+  dataSources: {
+    immigrant,
+  },
+  locationInfo: {
+    siteName: 'organization_name',
   },
 };
 
