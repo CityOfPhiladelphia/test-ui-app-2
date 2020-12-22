@@ -2,11 +2,11 @@
   <div class="app">
     <app-header
       :app-title="$config.app.title"
+      :is-sticky="true"
     />
-    <!-- :isSticky="true" -->
 
-    <div
-      class="main-content columns"
+    <main
+      class="main no-padding columns"
     >
       <div class="column">
         <input-form>
@@ -25,13 +25,15 @@
         </input-form>
       </div>
 
-      <div class="column">
+      <div class="column no-padding">
         <map-panel />
       </div>
-    </div>
+
+    </main>
 
     <app-footer
-      :isSticky="true"
+      :is-sticky="true"
+      :is-hidden-mobile="true"
     >
     </app-footer>
 
@@ -40,6 +42,7 @@
 
 <script>
 
+import Vue from 'vue';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import {
   AppHeader,
@@ -73,7 +76,29 @@ export default {
       myValue: '',
     };
   },
+  created() {
+    window.addEventListener("resize", this.handleResize);
+  },
+  mounted() {
+    this.handleResize();
+  },
   methods: {
+    handleResize () {
+      let header = document.querySelector('#app-header');
+      let footer = document.querySelector('#app-footer');
+      let main = document.querySelector('main');
+      let headerOffsetHeight = header.offsetHeight || 0;
+      let footerOffsetHeight = 0;
+      if (footer !== null) {
+        footerOffsetHeight = footer.offsetHeight;
+      }
+      let offsetHeight = headerOffsetHeight + footerOffsetHeight;
+      main.style['height'] = `calc(100vh - ${offsetHeight}px)`;
+      main.style['padding-bottom'] = '0px';
+      main.style['margin-bottom'] = '0px';
+      // console.log('App.vue handleResize, offsetHeight:', offsetHeight, 'headerOffsetHeight:', headerOffsetHeight, 'footerOffsetHeight:', footerOffsetHeight);
+
+    },
     handleSubmit() {
       this.$controller.handleSearchFormSubmit(this.myValue);
     },
@@ -84,9 +109,12 @@ export default {
 <style lang="scss">
   @import "./assets/scss/main.scss";
 
-  .main-content {
-    height: calc(100vh - 100px);
-    margin-top: 70px;
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  .no-padding {
+    padding: 0px;
   }
 
 </style>
