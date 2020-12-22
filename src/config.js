@@ -3,6 +3,7 @@ import immigrant from './data-sources/immigrant';
 const config = {
   app: {
     title: '@phila/phila-ui and @phila/vue-mapping',
+    type: 'immigrant',
   },
   router: {},
   geocoder: {
@@ -23,6 +24,25 @@ const config = {
   },
   locationInfo: {
     siteName: 'organization_name',
+  },
+  mbStyle: {
+    version: 8,
+    sources: {
+      pwd: {
+        tiles: [
+          'https://tiles.arcgis.com/tiles/fLeGjb7u4uXqeF9q/arcgis/rest/services/CityBasemap/MapServer/tile/{z}/{y}/{x}',
+        ],
+        type: 'raster',
+        tileSize: 256,
+      },
+    },
+    layers: [
+      {
+        id: 'pwd',
+        type: 'raster',
+        source: 'pwd',
+      },
+    ],
   },
 };
 

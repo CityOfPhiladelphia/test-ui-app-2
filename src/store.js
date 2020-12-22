@@ -26,6 +26,19 @@ function createStore(config) {
     map: {
       basemap: 'pwd',
       zoom: 14,
+      latestSelectedResourceFromMap: null,
+      popupCoords: null,
+      selectedPopupLayer: null,
+    },
+    bufferList: null,
+    currentData: [],
+    selectedResources: [],
+    latestSelectedResourceFromExpand: null,
+    refineOpen: false,
+    subsections: {},
+    alertResponse: null,
+    gtag: {
+      category: 'unspecified-pinboard-app',
     },
   };
   const mb = {
@@ -50,6 +63,43 @@ function createStore(config) {
       },
       setFullScreenImageryEnabled(state, payload) {
         state.fullScreenImageryEnabled = payload;
+      },
+
+      setGtagCategory(state, payload) {
+        state.gtag.category = payload;
+      },
+      setIsMobileOrTablet(state, payload) {
+        state.isMobileOrTablet = payload;
+      },
+      setalertResponse(state, payload) {
+        state.alertResponse = payload;
+      },
+      setSubsections(state, payload) {
+        state.subsections = payload;
+      },
+      setRefineOpen(state, payload) {
+        state.refineOpen = payload;
+      },
+      setBufferList(state, payload) {
+        state.bufferList = payload;
+      },
+      setCurrentData(state, payload) {
+        state.currentData = payload;
+      },
+      setSelectedResources(state, payload) {
+        state.selectedResources = payload;
+      },
+      setLatestSelectedResourceFromExpand(state, payload) {
+        state.latestSelectedResourceFromExpand = payload;
+      },
+      setLatestSelectedResourceFromMap(state, payload) {
+        state.map.latestSelectedResourceFromMap = payload;
+      },
+      setPopupCoords(state, payload) {
+        state.map.popupCoords = payload;
+      },
+      setSelectedPopupLayer(state, payload) {
+        state.map.selectedPopupLayer = payload;
       },
     },
   };
