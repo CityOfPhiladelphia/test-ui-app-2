@@ -25,6 +25,9 @@ const config = {
   locationInfo: {
     siteName: 'organization_name',
   },
+  comboSearch: {
+    searchDistance: 1,
+  },
   mbStyle: {
     version: 8,
     sources: {

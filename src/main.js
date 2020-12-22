@@ -8,7 +8,10 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 import fonts from './fa';
 
 import App from './App.vue';
+import router from './router';
 import { ResponsiveHelpers } from '@phila/phila-ui';
+
+import VueGtag from 'vue-gtag';
 
 Vue.config.productionTip = false;
 Vue.use(ResponsiveHelpers);
@@ -21,6 +24,16 @@ Vue.use(controllerMixin, { config, store });
 Vue.use(configMixin, config);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
+
+Vue.use(VueGtag, {
+  config:{
+    id: 'UA-860026-1',
+    appName: 'My application',
+    pageTrackerScreenviewEnabled: true,
+    params: {},
+  },
+}, router);
+
 Vue.prototype.$appType = config.app.type;
 
 new Vue({

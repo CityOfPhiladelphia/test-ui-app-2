@@ -136,7 +136,7 @@
     >
       <div class="column overflows">
 
-        <!-- <input-form>
+        <input-form>
           <textbox
             v-model="myValue"
             placeholder="Search an address"
@@ -149,7 +149,7 @@
           >
             Submit
           </button>
-        </input-form> -->
+        </input-form>
 
         <!-- <div
           v-for="item in currentData"
@@ -194,8 +194,8 @@ import {
   AppHeader,
   MobileNav,
   AppFooter,
-  // InputForm,
-  // Textbox,
+  InputForm,
+  Textbox,
 } from '@phila/phila-ui';
 
 import { point } from '@turf/helpers';
@@ -220,6 +220,8 @@ export default {
     AppHeader,
     MobileNav,
     AppFooter,
+    InputForm,
+    Textbox,
     // PhilaButton,
     // PhilaHeader,
     // AlertBanner,
@@ -242,6 +244,7 @@ export default {
       buffer: null,
       buttonText: 'Toggle to map',
       appLink: '/',
+      myValue: '',
     };
   },
   computed: {
@@ -486,6 +489,9 @@ export default {
       main.style['padding-bottom'] = '0px';
       main.style['margin-bottom'] = '0px';
       // console.log('App.vue handleResize, offsetHeight:', offsetHeight, 'headerOffsetHeight:', headerOffsetHeight, 'footerOffsetHeight:', footerOffsetHeight);
+    },
+    handleSubmit() {
+      this.$controller.handleSearchFormSubmit(this.myValue);
     },
     // track () {
     //   console.log('track is running');
