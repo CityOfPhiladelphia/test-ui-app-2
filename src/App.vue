@@ -89,7 +89,7 @@
 
 import 'mapbox-gl/dist/mapbox-gl.css';
 import {
-  AppHeader,
+  // AppHeader,
   MobileNav,
   AppFooter,
   InputForm,
@@ -105,6 +105,7 @@ import booleanPointInPolygon from '@turf/boolean-point-in-polygon';
 // import i18nBanner from './components/i18nBanner.vue';
 // import PhilaModal from './components/PhilaModal.vue';
 // import RefinePanel from './components/RefinePanel.vue';
+import AppHeader from './components/AppHeader';
 import LocationsPanel from './components/LocationsPanel.vue';
 import MapPanel from './components/MapPanel.vue';
 
