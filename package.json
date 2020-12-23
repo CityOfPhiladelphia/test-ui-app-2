@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@fortawesome/free-brands-svg-icons": "^5.15.1",
-    "@phila/phila-ui": "^2.0.0",
+    "@phila/phila-ui": "https://github.com/CityOfPhiladelphia/phila-ui#8739bc4d5b5572077e6ce6cca276725c4cce13ac",
     "@phila/vue-datafetch": "^1.4.8",
     "@phila/vue-mapping": "^2.2.10",
     "bulma": "^0.9.1",

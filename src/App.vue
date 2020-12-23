@@ -17,6 +17,23 @@
           </li>
         </ul>
       </mobile-nav>
+      <input-form slot="textbox-form">
+        <div class="columns">
+          <textbox
+            v-model="myValue"
+            class="column"
+            placeholder="Search an address"
+            label="Search an address in Philadelphia"
+          />
+          <button
+            slot="submit"
+            class="is-dark button"
+            @click.prevent="handleSubmit"
+          >
+            Submit
+          </button>
+        </div>
+      </input-form>
     </app-header>
 
     <main
@@ -24,20 +41,23 @@
     >
       <div class="column overflows">
 
-        <input-form>
-          <textbox
-            v-model="myValue"
-            placeholder="Search an address"
-            label="Search an address in Philadelphia"
-          />
-          <button
-            slot="submit"
-            class="is-cta button"
-            @click.prevent="handleSubmit"
-          >
-            Submit
-          </button>
-        </input-form>
+        <!-- <input-form>
+          <div class="columns">
+            <textbox
+              v-model="myValue"
+              class="column"
+              placeholder="Search an address"
+              label="Search an address in Philadelphia"
+            />
+            <button
+              slot="submit"
+              class="is-cta button"
+              @click.prevent="handleSubmit"
+            >
+              Submit
+            </button>
+          </div>
+        </input-form> -->
 
         <locations-panel />
 
