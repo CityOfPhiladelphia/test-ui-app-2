@@ -1,123 +1,11 @@
 <template>
-  <!-- <div
-    id="app"
-    class="grid-y small-grid-frame medium-grid-frame"
-  > -->
-    <!-- <PhilaModal
-      v-show="isModalOpen"
-      @close="closeModal"
-    >
-      <div slot="body">
-        <p>The resource finder helps you locate services related to a particular topic. You can browse the list of providers, search by keyword or address, and narrow your results by category.</p>
-
-        <p>The providers are listed alphabetically. To learn about what they offer and where they are, select their name. This will expand their listing and locate them on the map. You can also:
-          <ul>
-        <li><b>Search by location or keyword.</b> To find service providers near you, select “Address” in the dropdown and enter a street address. To search for a specific term, select “Keyword” in the dropdown and enter your term.</li>
-        <li><b>Choose a category.</b> If you’re looking for a specific type of resource, select the appropriate topic under “Filter list by category.” You can pick multiple categories.</li>
-          </ul></p>
-        <p>If you’re interested in a particular service or resource, contact the provider to learn more and confirm that it’s still available.</p>
-
-      </div>
-    </PhilaModal> -->
-
-    <!-- <PhilaModal
-      v-show="isAlertModalOpen"
-      @close="closeModal"
-    >
-      <div
-        slot="header"
-        v-html="alertModalHeader"
-      />
-      <div
-        slot="body"
-        v-html="alertModalBody"
-      />
-    </PhilaModal> -->
-
-    <!-- <PhilaHeader
-      :app-title="this.$config.app.title"
-      :app-tag-line="this.$config.app.tagLine"
-      :app-logo="`${publicPath}logo.png`"
-      :app-logo-alt="this.$config.app.logoAlt"
-      :app-link="this.appLink"
-    > -->
-
-      <!-- <AlertBanner
-        slot="alert-banner"
-        v-if="shouldShowHeaderAlert"
-      >
-      </AlertBanner> -->
-      <!-- v-if="this.$config.alerts && this.$config.alerts.header && this.$config.alerts.header.enabled" -->
-
-      <!-- <div slot="mobile-menu">
-        <PhilaFooter
-          :feedbackLink="feedbackLink"
-          @howToUseLink="toggleModal()"
-        />
-      </div> -->
-
-      <!-- <RefinePanel
-        slot="after-stripe"
-        v-if="this.$config.refine"
-      /> -->
-
-      <!-- <component
-        :is="this.$config.alerts.header"
-      /> -->
-      <!-- v-if="this.$config.alerts && this.$config.alerts.header != null" -->
-
-    <!-- </PhilaHeader> -->
-
-    <!-- <div class="cell medium-auto medium-cell-block-container main-content"> -->
-    <!-- <div class="cell medium-auto medium-cell-block-container">
-      <div
-        v-show="!refineOpen"
-        class="grid-x middle-panel"
-      >
-        <LocationsPanel
-          v-show="!isMapVisible || isLarge"
-          :is-map-visible="this.$data.isMapVisible"
-        />
-        <MapPanel
-          v-show="isMapVisible || isLarge"
-          @toggleMap="toggleMap"
-        >
-          <cyclomedia-widget
-            v-if="this.shouldLoadCyclomediaWidget"
-            v-show="cyclomediaActive"
-            slot="cycloWidget"
-            screen-percent="2"
-          />
-        </MapPanel>
-      </div>
-    </div> -->
-
-    <!-- <PhilaButton
-      v-if="!i18nEnabled"
-      class="button toggle-map hide-for-medium"
-      @click.native="toggleMap"
-    >
-      {{ buttonText }}
-    </PhilaButton> -->
-
-    <!-- <PhilaButton
-      v-if="i18nEnabled"
-      class="button toggle-map hide-for-medium"
-      @click.native="toggleMap"
-      v-html="$t(buttonText)"
-    /> -->
-
-    <!-- <PhilaFooter
-      v-show="isLarge"
-      :feedbackLink="feedbackLink"
-      @howToUseLink="toggleModal()"
-    /> -->
-  <!-- </div> -->
 
   <div class="app">
     <app-header
       :app-title="$config.app.title"
       :is-sticky="true"
+      :branding-image="brandingImage"
+      :branding-link="brandingLink"
     >
       <mobile-nav slot="mobile-nav">
         <ul>
@@ -151,15 +39,6 @@
           </button>
         </input-form>
 
-        <!-- <div
-          v-for="item in currentData"
-          :key="item.cartodb_id"
-        >
-          <expand-collapse
-            :item="item"
-          >
-          </expand-collapse>
-        </div> -->
         <locations-panel />
 
       </div>
@@ -188,7 +67,6 @@
 </template>
 <script>
 
-// import Mapbox from 'mapbox-gl';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import {
   AppHeader,
@@ -203,16 +81,12 @@ import buffer from '@turf/buffer';
 import booleanPointInPolygon from '@turf/boolean-point-in-polygon';
 
 // import PhilaButton from './components/PhilaButton.vue';
-// import PhilaHeader from './components/PhilaHeader.vue';
 // import AlertBanner from './components/AlertBanner.vue';
 // import i18nBanner from './components/i18nBanner.vue';
-// import PhilaFooter from './components/PhilaFooter.vue';
 // import PhilaModal from './components/PhilaModal.vue';
 // import RefinePanel from './components/RefinePanel.vue';
 import LocationsPanel from './components/LocationsPanel.vue';
 import MapPanel from './components/MapPanel.vue';
-
-// import TopicComponent from '@phila/vue-comps/src/components/TopicComponent.vue';
 
 export default {
   name: 'App',
@@ -223,17 +97,14 @@ export default {
     InputForm,
     Textbox,
     // PhilaButton,
-    // PhilaHeader,
     // AlertBanner,
     // i18nBanner,
-    // PhilaFooter,
     // PhilaModal,
     // RefinePanel,
     LocationsPanel,
     MapPanel,
     // CyclomediaWidget: () => import(/* webpackChunkName: "mbmb_pvm_CyclomediaWidget" */'@phila/vue-mapping/src/cyclomedia/Widget.vue'),
   },
-  // mixins: [ TopicComponent ],
   data() {
     return {
       publicPath: process.env.BASE_URL,
@@ -245,6 +116,15 @@ export default {
       buttonText: 'Toggle to map',
       appLink: '/',
       myValue: '',
+      brandingImage: {
+        src: require('@/assets/logo.png'),
+        alt: "City of Philadelphia Office of Immigrant Affairs logo",
+        width: "200px",
+      },
+      brandingLink: {
+        href: 'https://www.phila.gov/',
+        target: '_blank',
+      },
     };
   },
   computed: {

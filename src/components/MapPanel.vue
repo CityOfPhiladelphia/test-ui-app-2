@@ -1,6 +1,4 @@
 <template>
-  <!-- <div class="cell medium-12 medium-cell-block-y mb-panel mb-panel-map map-height"> -->
-  <!-- <div class="cell medium-12 medium-cell-block-y"> -->
   <!-- <div> -->
 
     <MglMap

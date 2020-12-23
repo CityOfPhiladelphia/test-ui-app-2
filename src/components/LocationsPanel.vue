@@ -1,5 +1,5 @@
 <template>
-  <div class="cell medium-12 medium-cell-block-y locations-panel">
+  <div class="locations-panel">
 
     <div
       v-if="shouldShowGreeting"
@@ -42,7 +42,7 @@
         v-for="item in currentData"
         :key="item.cartodb_id"
       >
-        <ExpandCollapse
+        <expand-collapse
           :item="item"
           :is-map-visible="isMapVisible"
         >
@@ -139,7 +139,7 @@
             </div>
           </div>
 
-        </ExpandCollapse>
+        </expand-collapse>
       </div>
     </div>
   </div>

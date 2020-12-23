@@ -9,10 +9,13 @@ module.exports = {
       },
     },
   },
+
   transpileDependencies: [
     // can be string or regex
     '@phila/phila-ui',
     '@phila/vue-mapping',
     '@phila/vue-datafetch',
   ],
+
+  lintOnSave: false
 };
