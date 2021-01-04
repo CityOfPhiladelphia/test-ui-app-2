@@ -683,23 +683,23 @@ export default {
   height: 100%;
 }
 
-@media screen and (max-width: 749px) {
-  .map-container{
+/* @media screen and (max-width: 749px) {
+  .map-container{ */
+    /* min-height: calc(100vh - 192px); */
     /* min-height: calc(100vh - 100px); */
-    min-height: calc(100vh - 192px);
     /* height: 100vh; */
     /* height: 400px; */
     /* min-height: 100%; */
-  }
+  /* } */
 
-  .map-container-no-refine {
+  /* .map-container-no-refine { */
+    /* min-height: calc(100vh - 132px); */
     /* min-height: calc(100vh - 100px); */
-    min-height: calc(100vh - 132px);
     /* height: 100vh; */
     /* height: 400px; */
     /* min-height: 100%; */
-  }
-}
+  /* }
+} */
 
 .mb-map-with-widget {
   height: 50%;

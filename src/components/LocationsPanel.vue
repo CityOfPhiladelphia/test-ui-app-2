@@ -48,7 +48,7 @@
         >
 
           <component
-            :is="expandCollapseContent"
+            :is="'expandCollapseContent'"
             v-if="$config.customComps && Object.keys($config.customComps).includes('expandCollapseContent')"
             :item="item"
             :is-map-visible="isMapVisible"
@@ -335,7 +335,7 @@ export default {
 
 .locations-panel{
   overflow-y: auto;
-  height: calc(100vh - 192px);
+  // height: calc(100vh - 192px);
   .detail{
     margin-bottom: 1rem;
     svg {

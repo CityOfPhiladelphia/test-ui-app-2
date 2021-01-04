@@ -21,13 +21,13 @@
         <div class="columns">
           <textbox
             v-model="myValue"
-            class="column"
+            class="column is-10"
             placeholder="Search an address"
             label="Search an address in Philadelphia"
           />
           <button
             slot="submit"
-            class="is-dark button"
+            class="button is-dark is-large"
             @click.prevent="handleSubmit"
           >
             Submit
@@ -36,38 +36,36 @@
       </input-form>
     </app-header>
 
+    <!-- class="main no-padding columns is-mobile" -->
     <main
-      class="main no-padding columns"
+      class="main no-padding columns is-mobile"
     >
-      <div class="column overflows">
-
-        <!-- <input-form>
-          <div class="columns">
-            <textbox
-              v-model="myValue"
-              class="column"
-              placeholder="Search an address"
-              label="Search an address in Philadelphia"
-            />
-            <button
-              slot="submit"
-              class="is-cta button"
-              @click.prevent="handleSubmit"
-            >
-              Submit
-            </button>
-          </div>
-        </input-form> -->
+      <div
+        v-show="isTablet || isDesktop || !isMapVisible"
+        class="column overflows"
+      >
 
         <locations-panel />
 
       </div>
 
-      <div class="column no-padding">
+      <div
+        v-show="isTablet || isDesktop || isMapVisible"
+        class="column no-padding"
+      >
         <map-panel />
       </div>
 
     </main>
+
+    <!-- class="button is-sticky full-screen is-primary is-hidden-tablet" -->
+    <button
+      id="switch-button"
+      class="button is-sticky-to-bottom full-screen is-primary is-hidden-tablet"
+      @click="toggleMap"
+    >
+      switch button
+    </button>
 
     <app-footer
       :is-sticky="true"
@@ -88,6 +86,7 @@
 <script>
 
 import 'mapbox-gl/dist/mapbox-gl.css';
+import Vue from 'vue';
 import {
   // AppHeader,
   MobileNav,
@@ -100,7 +99,6 @@ import { point } from '@turf/helpers';
 import buffer from '@turf/buffer';
 import booleanPointInPolygon from '@turf/boolean-point-in-polygon';
 
-// import PhilaButton from './components/PhilaButton.vue';
 // import AlertBanner from './components/AlertBanner.vue';
 // import i18nBanner from './components/i18nBanner.vue';
 // import PhilaModal from './components/PhilaModal.vue';
@@ -117,7 +115,6 @@ export default {
     AppFooter,
     InputForm,
     Textbox,
-    // PhilaButton,
     // AlertBanner,
     // i18nBanner,
     // PhilaModal,
@@ -146,6 +143,7 @@ export default {
         href: 'https://www.phila.gov/',
         target: '_blank',
       },
+      mistake: false,
     };
   },
   computed: {
@@ -290,6 +288,36 @@ export default {
     },
   },
   watch: {
+    isMobile(nextIsMobile) {
+      if (nextIsMobile) {
+        console.log('is mobile');
+        this.handleResize();
+      }
+    },
+    isTablet(nextIsTablet) {
+      if (nextIsTablet) {
+        console.log('is tablet');
+        this.handleResize();
+      }
+    },
+    isDesktop(nextIsDesktop) {
+      if (nextIsDesktop) {
+        console.log('is desktop');
+        this.handleResize();
+      }
+    },
+    isWideScreen(nextIsWidescreen) {
+      if (nextIsWidescreen) {
+        console.log('is widescreen');
+        this.handleResize();
+      }
+    },
+    // mistake(nextMistake) {
+    //   console.log('watch mistake is firing, nextMistake:', nextMistake);
+    //   if (nextMistake === true) {
+    //     this.handleResize();
+    //   }
+    // },
     sourcesWatched(nextSourcesWatched) {
       console.log('watch sourcesWatched, nextSourcesWatched:', nextSourcesWatched);
       if (!nextSourcesWatched.includes(null)) {
@@ -331,7 +359,7 @@ export default {
         this.$store.commit('setMapType', this.$config.map.type);
       }
     }
-    window.addEventListener('resize', this.handleResize);
+    // window.addEventListener('resize', this.handleResize);
   },
   mounted() {
     console.log('in App.vue mounted, this.$store.state:', this.$store.state, 'this.$config:', this.$config, 'window.location.href:', window.location.href);
@@ -367,29 +395,46 @@ export default {
       this.$store.commit('setGtagCategory', this.$config.gtag.category);
     }
 
-    // this.onResize();
     this.handleResize();
   },
 
 
   beforeDestroy() {
-    window.removeEventListener('resize', this.onResize);
+    window.removeEventListener('resize', this.handleResize);
   },
   methods: {
     handleResize () {
-      let header = document.querySelector('#app-header');
-      let footer = document.querySelector('#app-footer');
-      let main = document.querySelector('main');
-      let headerOffsetHeight = header.offsetHeight || 0;
-      let footerOffsetHeight = 0;
-      if (footer !== null) {
-        footerOffsetHeight = footer.offsetHeight;
-      }
-      let offsetHeight = headerOffsetHeight + footerOffsetHeight;
-      main.style['height'] = `calc(100vh - ${offsetHeight}px)`;
-      main.style['padding-bottom'] = '0px';
-      main.style['margin-bottom'] = '0px';
-      // console.log('App.vue handleResize, offsetHeight:', offsetHeight, 'headerOffsetHeight:', headerOffsetHeight, 'footerOffsetHeight:', footerOffsetHeight);
+
+      //wait for dom to finish updating
+      let isMobile = this.isMobile;
+      Vue.nextTick(function () {
+        let header = document.querySelector('#app-header');
+        let footer = document.querySelector('#app-footer');
+        let switchButton = document.querySelector('#switch-button');
+        let main = document.querySelector('main');
+        let headerOffsetHeight = header.offsetHeight || 0;
+        let headerClientHeight = header.clientHeight || 0;
+        let headerInnerHeight = header.clientHeight || 0;
+        let footerOffsetHeight = 0;
+        if (footer !== null) {
+          footerOffsetHeight = footer.offsetHeight;
+        }
+        let switchButtonOffsetHeight = switchButton.offsetHeight;
+        let offsetHeight;
+        if (isMobile) {
+          let offsetHeight = headerOffsetHeight  + switchButtonOffsetHeight;
+          console.log('handleResize isMobile, offsetHeight:', offsetHeight, 'headerClientHeight:', headerClientHeight, 'headerOffsetHeight:', headerOffsetHeight, 'footerOffsetHeight:', footerOffsetHeight, 'switchButtonOffsetHeight:', switchButtonOffsetHeight);
+        } else {
+          let offsetHeight = headerOffsetHeight + footerOffsetHeight;
+          console.log('handleResize is NOT mobile, offsetHeight:', offsetHeight, 'headerClientHeight:', headerClientHeight, 'headerOffsetHeight:', headerOffsetHeight, 'footerOffsetHeight:', footerOffsetHeight, 'switchButtonOffsetHeight:', switchButtonOffsetHeight);
+          main.style['height'] = `calc(100vh - ${offsetHeight}px)`;
+          main.style['padding-bottom'] = '0px';
+          main.style['margin-bottom'] = '0px';
+        }
+        // console.log('App.vue handleResize, offsetHeight:', offsetHeight, 'headerOffsetHeight:', headerOffsetHeight, 'footerOffsetHeight:', footerOffsetHeight);
+        console.log('end of handleResize');
+      });
+
     },
     handleSubmit() {
       this.$controller.handleSearchFormSubmit(this.myValue);
@@ -573,31 +618,28 @@ export default {
       this.$store.commit('setCurrentData', filteredRows);
     },
     toggleMap() {
-      if (window.innerWidth > 749) {
-        this.$data.isMapVisible = true;
-      } else {
-        this.$data.isMapVisible = !this.$data.isMapVisible;
-        console.log('toggleMap is running');
-        if (this.$data.isMapVisible === true) {
-          console.log('toggleMap is running, this.$data.isMapVisible === true');
-          console.log('setTimeout function is running');
-          if (this.mapType === 'leaflet') {
-            this.$store.state.map.map.invalidateSize();
-          } else if (this.mapType === 'mapbox') {
-            let themap = this.$store.map;
-            setTimeout(function() {
-              console.log('mapbox running map resize now');
-              themap.resize();
-              console.log('mapbox ran map resize');
-            }, 250);
-          }
-        }
+      this.$data.isMapVisible = !this.$data.isMapVisible;
+      console.log('toggleMap is running, this.$data.isMapVisible:', this.$data.isMapVisible);
+      if (this.$data.isMapVisible === true) {
+        console.log('toggleMap is running, this.$data.isMapVisible === true');
+        // console.log('setTimeout function is running');
+        // if (this.mapType === 'leaflet') {
+        //   this.$store.state.map.map.invalidateSize();
+        // } else if (this.mapType === 'mapbox') {
+        let themap = this.$store.map;
+        setTimeout(function() {
+          console.log('mapbox running map resize now');
+          themap.resize();
+          console.log('mapbox ran map resize');
+        }, 250);
       }
-      if (!this.i18nEnabled) {
-        this.$data.buttonText = this.$data.isMapVisible ? 'Toggle to resource list' : 'Toggle to map';
-      } else {
-        this.$data.buttonText = this.$data.isMapVisible ? 'app.viewList' : 'app.viewMap';
-      }
+      //   }
+      // }
+      // if (!this.i18nEnabled) {
+      //   this.$data.buttonText = this.$data.isMapVisible ? 'Toggle to resource list' : 'Toggle to map';
+      // } else {
+      //   this.$data.buttonText = this.$data.isMapVisible ? 'app.viewList' : 'app.viewMap';
+      // }
     },
     toggleModal() {
       this.isModalOpen = !this.isModalOpen;
@@ -616,20 +658,21 @@ export default {
       const el = document.body;
       return this.isOpen ? el.classList.add(className) : el.classList.remove(className);
     },
-    onResize() {
-      if (window.innerWidth > 749) {
-        this.$data.isMapVisible = true;
-
-        if (!this.i18nEnabled) {
-          this.$data.buttonText = this.$data.isMapVisible ? 'Toggle to resource list' : 'Toggle to map';
-        } else {
-          this.$data.buttonText = this.$data.isMapVisible ? 'app.viewList': 'app.viewMap';
-        }
-        this.$data.isLarge = true;
-      } else {
-        this.$data.isLarge = false;
-      }
-    },
+    // onResize() {
+    //   console.log('App.vue onResize is running');
+    //   if (window.innerWidth > 749) {
+    //     this.$data.isMapVisible = true;
+    //
+    //     if (!this.i18nEnabled) {
+    //       this.$data.buttonText = this.$data.isMapVisible ? 'Toggle to resource list' : 'Toggle to map';
+    //     } else {
+    //       this.$data.buttonText = this.$data.isMapVisible ? 'app.viewList': 'app.viewMap';
+    //     }
+    //     this.$data.isLarge = true;
+    //   } else {
+    //     this.$data.isLarge = false;
+    //   }
+    // },
   },
 };
 </script>
@@ -641,6 +684,16 @@ export default {
   display: none;
 }
 
+.full-screen {
+  width: 100%;
+}
+
+.is-sticky-to-bottom {
+  position: fixed;
+  bottom: 0;
+  z-index: 99;
+}
+
 .no-padding {
   padding: 0px;
 }
@@ -649,12 +702,13 @@ export default {
   overflow-y: scroll;
 }
 
-.toggle-map{
-  margin:0 !important;
-}
-.main-content{
-  margin-top:.5rem;
-}
+// .toggle-map{
+//   margin:0 !important;
+// }
+
+// .main-content{
+//   margin-top:.5rem;
+// }
 
 .middle-panel {
   height: 100%;
@@ -678,22 +732,25 @@ a {
     border-color: nth($value, 2) !important;
   }
 }
-@media screen and (max-width: 749px) {
-  .main-content{
-    margin-top:9rem;
-    margin-bottom:2rem;
-  }
-}
+
+// @media screen and (max-width: 749px) {
+//   .main-content{
+//     margin-top:9rem;
+//     margin-bottom:2rem;
+//   }
+// }
+
 .no-scroll{
   overflow: hidden;
   height: 100vh;
 }
-.toggle-map{
-  position: fixed;
-  bottom:0;
-  width: 100%;
-  z-index: 1002;
-}
+
+// .toggle-map{
+//   position: fixed;
+//   bottom:0;
+//   width: 100%;
+//   z-index: 1002;
+// }
 
 // .step-group{
 //   margin-left:$spacing-medium;

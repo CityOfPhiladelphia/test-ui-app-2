@@ -1,6 +1,7 @@
 <template>
+  <!-- class="cell medium-cell-block-container location-item" -->
   <div
-    class="cell medium-cell-block-container location-item"
+    class="location-item"
     :class="{ 'open': locationOpen }"
   >
     <h2
@@ -221,6 +222,7 @@ export default {
 };
 </script>
 <style lang="scss">
+@import "../assets/scss/main.scss";
 
 .location-item {
   position: relative;
@@ -267,7 +269,8 @@ export default {
   &.open{
     h2{
       color:white;
-      background-color: color(ben-franklin-blue);
+      background-color: $ben-franklin-blue;
+      // background-color: color(ben-franklin-blue);
       font-weight: 900;
     }
     &::after{
