@@ -36,24 +36,43 @@
       </input-form>
     </app-header>
 
+
+
     <!-- class="main no-padding columns is-mobile" -->
     <main
-      class="main no-padding columns is-mobile"
+      class="main no-padding"
     >
+
+    <div
+      class="test-class"
+    >
+      test
+    </div>
+      <!-- <div class="columns">
+        <div class="column">
+          test
+        </div>
+      </div> -->
+
       <div
-        v-show="isTablet || isDesktop || !isMapVisible"
-        class="column overflows"
+        class="columns is-mobile"
       >
 
-        <locations-panel />
+        <div
+          v-show="isTablet || isDesktop || !isMapVisible"
+          class="column"
+        >
+        <!-- class="column" -->
+          <locations-panel />
+        </div>
 
-      </div>
+        <div
+          v-show="isTablet || isDesktop || isMapVisible"
+          class="column no-padding"
+        >
+          <map-panel />
+        </div>
 
-      <div
-        v-show="isTablet || isDesktop || isMapVisible"
-        class="column no-padding"
-      >
-        <map-panel />
       </div>
 
     </main>
@@ -700,6 +719,15 @@ export default {
 
 .overflows {
   overflow-y: scroll;
+}
+
+.main {
+  // overflow-y: hidden;
+}
+
+.test-class {
+  height: 100px;
+  background-color: red;
 }
 
 // .toggle-map{
