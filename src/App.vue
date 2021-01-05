@@ -39,31 +39,45 @@
 
 
     <!-- class="main no-padding columns is-mobile" -->
-    <main
-      class="main no-padding"
-    >
+    <main class="columns is-multiline">
+      <div class="column is-full">
+        red div
+      </div>
+      <div
+        v-show="isTablet || isDesktop || !isMapVisible"
+        class="column is-half"
+      >
+        <locations-panel />
+      </div>
+      <div
+        v-show="isTablet || isDesktop || !isMapVisible"
+        class="column is-half no-padding"
+      >
+        <map-panel />
+      </div>
+    </main>
 
-    <div
+    <!-- <div
       class="test-class"
     >
       test
-    </div>
+    </div> -->
       <!-- <div class="columns">
         <div class="column">
           test
         </div>
       </div> -->
 
-      <div
+      <!-- <div
         class="columns is-mobile"
-      >
+      > -->
 
-        <div
+        <!-- <div
           v-show="isTablet || isDesktop || !isMapVisible"
           class="column"
-        >
+        > -->
         <!-- class="column" -->
-          <locations-panel />
+          <!-- <locations-panel />
         </div>
 
         <div
@@ -73,7 +87,7 @@
           <map-panel />
         </div>
 
-      </div>
+      </div> -->
 
     </main>
 
