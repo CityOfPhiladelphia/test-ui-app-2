@@ -44,7 +44,6 @@
         v-show="isTablet || isDesktop || !isMapVisible"
         class="column overflows"
       >
-
         <locations-panel />
 
       </div>
