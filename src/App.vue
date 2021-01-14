@@ -37,47 +37,27 @@
     </app-header>
 
 
-
-    <!-- class="main no-padding columns is-mobile" -->
-    <main class="columns is-multiline">
-      <div class="column is-full">
-        red div
-      </div>
-      <div
-        v-show="isTablet || isDesktop || !isMapVisible"
-        class="column is-half"
-      >
-        <locations-panel />
-      </div>
-      <div
-        v-show="isTablet || isDesktop || !isMapVisible"
-        class="column is-half no-padding"
-      >
-        <map-panel />
-      </div>
-    </main>
-
-    <!-- <div
-      class="test-class"
+    <div
+      id="sticky-div"
     >
       test
-    </div> -->
-      <!-- <div class="columns">
-        <div class="column">
-          test
-        </div>
-      </div> -->
+    </div>
 
-      <!-- <div
+    <!-- class="main no-padding columns is-mobile" -->
+    <main
+      class="main no-padding"
+    >
+
+      <div
+        id="column-div"
         class="columns is-mobile"
-      > -->
+      >
 
-        <!-- <div
+        <div
           v-show="isTablet || isDesktop || !isMapVisible"
-          class="column"
-        > -->
-        <!-- class="column" -->
-          <!-- <locations-panel />
+          class="column overflows"
+        >
+          <locations-panel />
         </div>
 
         <div
@@ -87,7 +67,7 @@
           <map-panel />
         </div>
 
-      </div> -->
+      </div>
 
     </main>
 
@@ -437,7 +417,7 @@ export default {
   },
   methods: {
     handleResize () {
-
+      console.log('handleResize is starting');
       //wait for dom to finish updating
       let isMobile = this.isMobile;
       Vue.nextTick(function () {
@@ -445,6 +425,9 @@ export default {
         let footer = document.querySelector('#app-footer');
         let switchButton = document.querySelector('#switch-button');
         let main = document.querySelector('main');
+        let stickyDiv = document.querySelector('#sticky-div');
+        let columnDiv = document.querySelector('#column-div');
+        let stickyDivOffsetHeight = stickyDiv.offsetHeight || 0;
         let headerOffsetHeight = header.offsetHeight || 0;
         let headerClientHeight = header.clientHeight || 0;
         let headerInnerHeight = header.clientHeight || 0;
@@ -455,14 +438,19 @@ export default {
         let switchButtonOffsetHeight = switchButton.offsetHeight;
         let offsetHeight;
         if (isMobile) {
-          let offsetHeight = headerOffsetHeight  + switchButtonOffsetHeight;
+          let offsetHeight = headerOffsetHeight  + switchButtonOffsetHeight + stickyDivOffsetHeight;
           console.log('handleResize isMobile, offsetHeight:', offsetHeight, 'headerClientHeight:', headerClientHeight, 'headerOffsetHeight:', headerOffsetHeight, 'footerOffsetHeight:', footerOffsetHeight, 'switchButtonOffsetHeight:', switchButtonOffsetHeight);
         } else {
           let offsetHeight = headerOffsetHeight + footerOffsetHeight;
-          console.log('handleResize is NOT mobile, offsetHeight:', offsetHeight, 'headerClientHeight:', headerClientHeight, 'headerOffsetHeight:', headerOffsetHeight, 'footerOffsetHeight:', footerOffsetHeight, 'switchButtonOffsetHeight:', switchButtonOffsetHeight);
+          // let offsetHeight2 = headerOffsetHeight + footerOffsetHeight  + stickyDivOffsetHeight;
+          let offsetHeight2 = headerOffsetHeight + stickyDivOffsetHeight;
+          console.log('handleResize is NOT mobile, stickyDiv:', stickyDiv, 'stickyDivOffsetHeight:', stickyDivOffsetHeight, 'offsetHeight:', offsetHeight, 'headerClientHeight:', headerClientHeight, 'headerOffsetHeight:', headerOffsetHeight, 'footerOffsetHeight:', footerOffsetHeight, 'switchButtonOffsetHeight:', switchButtonOffsetHeight);
           main.style['height'] = `calc(100vh - ${offsetHeight}px)`;
           main.style['padding-bottom'] = '0px';
           main.style['margin-bottom'] = '0px';
+          stickyDiv.style['top'] = headerOffsetHeight + 'px';
+          columnDiv.style['margin-top'] = offsetHeight2 + 'px';
+          columnDiv.style['height'] = `calc(100vh - ${offsetHeight2}px)`;
         }
         // console.log('App.vue handleResize, offsetHeight:', offsetHeight, 'headerOffsetHeight:', headerOffsetHeight, 'footerOffsetHeight:', footerOffsetHeight);
         console.log('end of handleResize');
@@ -739,9 +727,12 @@ export default {
   // overflow-y: hidden;
 }
 
-.test-class {
+#sticky-div {
   height: 100px;
   background-color: red;
+  width: 100%;
+  position: fixed;
+  left: 0;
 }
 
 // .toggle-map{
