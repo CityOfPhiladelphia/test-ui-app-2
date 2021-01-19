@@ -38,6 +38,98 @@ const config = {
   comboSearch: {
     searchDistance: 1,
   },
+  refine: {
+    type: 'multipleFieldGroups',
+    multipleFieldGroups: {
+      patientAge: {
+        '+18 years old': {
+          unique_key: 'year18',
+          i18n_key: 'patientAge.year18',
+          value: function(item) {
+            return item.attributes.Age === 'year18';
+          },
+        },
+        '+14 years old': {
+          unique_key: 'year14',
+          i18n_key: 'patientAge.year14',
+          value: function(item) {
+            return item.attributes.Age === 'year14';
+          },
+        },
+        'Offers pediatric care': {
+          unique_key: 'pedCare',
+          i18n_key: 'patientAge.pedCare',
+          value: function(item) {
+            return item.attributes.Age === 'pedCare';
+          },
+        },
+      },
+      refReq: {
+        'Yes': {
+          unique_key: 'referral_yes',
+          i18n_key: 'Yes',
+          value: function(item) {
+            return item.attributes.Referral === 'yes';
+          },
+        },
+        'No': {
+          unique_key: 'referral_no',
+          i18n_key: 'No',
+          value: function(item) {
+            return item.attributes.Referral === 'no';
+          },
+        },
+      },
+      symptomatic: {
+        'Yes': {
+          unique_key: 'symptom_yes',
+          i18n_key: 'Yes',
+          value: function(item) {
+            return item.attributes.Symptoms === 'symptom';
+          },
+        },
+        'No': {
+          unique_key: 'symptom_no',
+          i18n_key: 'No',
+          value: function(item) {
+            return item.attributes.Symptoms === 'asymptom';
+          },
+        },
+      },
+      process: {
+        'Drive thru': {
+          unique_key: 'dtwu_driveThru',
+          i18n_key: 'process.dt',
+          value: function(item) {
+            return [ 'dt', 'both' ].includes(item.attributes.drive_thruwalk_up);
+          },
+        },
+        'Walk up': {
+          unique_key: 'dtwu_walkUp',
+          i18n_key: 'process.wu',
+          value: function(item) {
+            return [ 'wu', 'both' ].includes(item.attributes.drive_thruwalk_up);
+          },
+        },
+      },
+      rapid: {
+        'Yes': {
+          unique_key: 'rapid_testing_yes',
+          i18n_key: 'Yes',
+          value: function(item) {
+            return item.attributes.rapid_testing === 'Yes';
+          },
+        },
+        'No': {
+          unique_key: 'rapid_testing_no',
+          i18n_key: 'No',
+          value: function(item) {
+            return item.attributes.rapid_testing === 'No' || item.attributes.rapid_testing == null;
+          },
+        },
+      },
+    },
+  },
   mbStyle: {
     version: 8,
     sources: {
