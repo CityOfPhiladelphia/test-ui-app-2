@@ -2,7 +2,8 @@ import Vue from 'vue';
 import VueI18n from 'vue-i18n';
 import configMixin from './util/config-mixin';
 import createStore from './store';
-import config from './config.js';
+import configBasic from './config.js';
+import i18nBasic from './i18n';
 import controllerMixin from '@phila/vue-datafetch/src/controller.js';
 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
@@ -14,9 +15,13 @@ import router from './router';
 import ResponsiveHelpers from './plugins/ResponsiveHelpers.js';
 
 import VueGtag from 'vue-gtag';
+import mergeDeep from './util/merge-deep';
 
 Vue.config.productionTip = false;
 Vue.use(ResponsiveHelpers);
+
+let config = mergeDeep(configBasic, i18nBasic);
+console.log('config:', config);
 
 // create store
 const store = createStore(config);
@@ -56,6 +61,7 @@ Vue.prototype.$appType = config.app.type;
 
 new Vue({
   render: h => h(App),
+  router,
   i18n,
   store,
 }).$mount('#app');

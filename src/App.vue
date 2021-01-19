@@ -37,11 +37,13 @@
     </app-header>
 
 
-    <div
+    <!-- <div
       id="sticky-div"
     >
       test
-    </div>
+    </div> -->
+    <refine-panel>
+    </refine-panel>
 
     <!-- class="main no-padding columns is-mobile" -->
     <main
@@ -115,7 +117,7 @@ import booleanPointInPolygon from '@turf/boolean-point-in-polygon';
 // import AlertBanner from './components/AlertBanner.vue';
 // import i18nBanner from './components/i18nBanner.vue';
 // import PhilaModal from './components/PhilaModal.vue';
-// import RefinePanel from './components/RefinePanel.vue';
+import RefinePanel from './components/RefinePanel.vue';
 import AppHeader from './components/AppHeader';
 import LocationsPanel from './components/LocationsPanel.vue';
 import MapPanel from './components/MapPanel.vue';
@@ -131,7 +133,7 @@ export default {
     // AlertBanner,
     // i18nBanner,
     // PhilaModal,
-    // RefinePanel,
+    RefinePanel,
     LocationsPanel,
     MapPanel,
     // CyclomediaWidget: () => import(/* webpackChunkName: "mbmb_pvm_CyclomediaWidget" */'@phila/vue-mapping/src/cyclomedia/Widget.vue'),
@@ -729,7 +731,7 @@ export default {
 
 #sticky-div {
   height: 100px;
-  background-color: red;
+  // background-color: red;
   width: 100%;
   position: fixed;
   left: 0;
