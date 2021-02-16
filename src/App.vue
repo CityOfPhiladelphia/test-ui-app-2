@@ -37,15 +37,9 @@
     </app-header>
 
 
-    <!-- <div
-      id="sticky-div"
-    >
-      test
-    </div> -->
     <refine-panel>
     </refine-panel>
 
-    <!-- class="main no-padding columns is-mobile" -->
     <main
       class="main no-padding"
     >
@@ -73,7 +67,6 @@
 
     </main>
 
-    <!-- class="button is-sticky full-screen is-primary is-hidden-tablet" -->
     <button
       id="switch-button"
       class="button is-sticky-to-bottom full-screen is-primary is-hidden-tablet"
@@ -158,7 +151,6 @@ export default {
         href: 'https://www.phila.gov/',
         target: '_blank',
       },
-      mistake: false,
     };
   },
   computed: {
@@ -327,12 +319,6 @@ export default {
         this.handleResize();
       }
     },
-    // mistake(nextMistake) {
-    //   console.log('watch mistake is firing, nextMistake:', nextMistake);
-    //   if (nextMistake === true) {
-    //     this.handleResize();
-    //   }
-    // },
     sourcesWatched(nextSourcesWatched) {
       console.log('watch sourcesWatched, nextSourcesWatched:', nextSourcesWatched);
       if (!nextSourcesWatched.includes(null)) {
@@ -427,9 +413,9 @@ export default {
         let footer = document.querySelector('#app-footer');
         let switchButton = document.querySelector('#switch-button');
         let main = document.querySelector('main');
-        let stickyDiv = document.querySelector('#sticky-div');
+        let refineDiv = document.querySelector('#refine-div');
         let columnDiv = document.querySelector('#column-div');
-        let stickyDivOffsetHeight = stickyDiv.offsetHeight || 0;
+        let refineDivOffsetHeight = refineDiv.offsetHeight || 0;
         let headerOffsetHeight = header.offsetHeight || 0;
         let headerClientHeight = header.clientHeight || 0;
         let headerInnerHeight = header.clientHeight || 0;
@@ -440,17 +426,16 @@ export default {
         let switchButtonOffsetHeight = switchButton.offsetHeight;
         let offsetHeight;
         if (isMobile) {
-          let offsetHeight = headerOffsetHeight  + switchButtonOffsetHeight + stickyDivOffsetHeight;
+          let offsetHeight = headerOffsetHeight  + switchButtonOffsetHeight + refineDivOffsetHeight;
           console.log('handleResize isMobile, offsetHeight:', offsetHeight, 'headerClientHeight:', headerClientHeight, 'headerOffsetHeight:', headerOffsetHeight, 'footerOffsetHeight:', footerOffsetHeight, 'switchButtonOffsetHeight:', switchButtonOffsetHeight);
         } else {
           let offsetHeight = headerOffsetHeight + footerOffsetHeight;
-          // let offsetHeight2 = headerOffsetHeight + footerOffsetHeight  + stickyDivOffsetHeight;
-          let offsetHeight2 = headerOffsetHeight + stickyDivOffsetHeight;
-          console.log('handleResize is NOT mobile, stickyDiv:', stickyDiv, 'stickyDivOffsetHeight:', stickyDivOffsetHeight, 'offsetHeight:', offsetHeight, 'headerClientHeight:', headerClientHeight, 'headerOffsetHeight:', headerOffsetHeight, 'footerOffsetHeight:', footerOffsetHeight, 'switchButtonOffsetHeight:', switchButtonOffsetHeight);
+          let offsetHeight2 = headerOffsetHeight + refineDivOffsetHeight;
+          console.log('handleResize is NOT mobile, refineDiv:', refineDiv, 'refineDivOffsetHeight:', refineDivOffsetHeight, 'offsetHeight2:', offsetHeight2, 'offsetHeight:', offsetHeight, 'headerClientHeight:', headerClientHeight, 'headerOffsetHeight:', headerOffsetHeight, 'footerOffsetHeight:', footerOffsetHeight, 'switchButtonOffsetHeight:', switchButtonOffsetHeight);
           main.style['height'] = `calc(100vh - ${offsetHeight}px)`;
           main.style['padding-bottom'] = '0px';
           main.style['margin-bottom'] = '0px';
-          stickyDiv.style['top'] = headerOffsetHeight + 'px';
+          refineDiv.style['top'] = headerOffsetHeight + 'px';
           columnDiv.style['margin-top'] = offsetHeight2 + 'px';
           columnDiv.style['height'] = `calc(100vh - ${offsetHeight2}px)`;
         }
@@ -681,31 +666,12 @@ export default {
       const el = document.body;
       return this.isOpen ? el.classList.add(className) : el.classList.remove(className);
     },
-    // onResize() {
-    //   console.log('App.vue onResize is running');
-    //   if (window.innerWidth > 749) {
-    //     this.$data.isMapVisible = true;
-    //
-    //     if (!this.i18nEnabled) {
-    //       this.$data.buttonText = this.$data.isMapVisible ? 'Toggle to resource list' : 'Toggle to map';
-    //     } else {
-    //       this.$data.buttonText = this.$data.isMapVisible ? 'app.viewList': 'app.viewMap';
-    //     }
-    //     this.$data.isLarge = true;
-    //   } else {
-    //     this.$data.isLarge = false;
-    //   }
-    // },
   },
 };
 </script>
 
 <style lang="scss">
 @import "./assets/scss/main.scss";
-
-::-webkit-scrollbar {
-  display: none;
-}
 
 .full-screen {
   width: 100%;
@@ -725,99 +691,18 @@ export default {
   overflow-y: scroll;
 }
 
-.main {
-  // overflow-y: hidden;
-}
-
-#sticky-div {
-  height: 100px;
-  // background-color: red;
-  width: 100%;
-  position: fixed;
-  left: 0;
-}
-
-// .toggle-map{
-//   margin:0 !important;
-// }
-
-// .main-content{
-//   margin-top:.5rem;
-// }
-
-.middle-panel {
-  height: 100%;
-}
-
 a {
   font-weight: bold;
   text-decoration: underline;
 }
-
-//TODO, move to standards
-@each $value in $colors {
-  //sass-lint:disable-block no-important
-  .#{nth($value, 1)} {
-    color: nth($value, 2) !important;
-  }
-  .bg-#{nth($value, 1)} {
-    background-color: nth($value, 2) !important;
-  }
-  .bdr-#{nth($value, 1)} {
-    border-color: nth($value, 2) !important;
-  }
-}
-
-// @media screen and (max-width: 749px) {
-//   .main-content{
-//     margin-top:9rem;
-//     margin-bottom:2rem;
-//   }
-// }
 
 .no-scroll{
   overflow: hidden;
   height: 100vh;
 }
 
-// .toggle-map{
-//   position: fixed;
-//   bottom:0;
-//   width: 100%;
-//   z-index: 1002;
-// }
+::-webkit-scrollbar {
+  display: none;
+}
 
-// .step-group{
-//   margin-left:$spacing-medium;
-//
-//   .step-label {
-//     @include secondary-font(400);
-//     display: inline-block;
-//     margin-left: -$spacing-medium;
-//     background: black;
-//     border-radius: $spacing-extra-large;
-//     color:white;
-//     padding: 0 $spacing-small;
-//     width:$spacing-large;
-//     height:$spacing-large;
-//     line-height: $spacing-large;
-//     text-align: center;
-//   }
-//   .step{
-//     margin-top: -$spacing-large;
-//     padding-left: $spacing-large;
-//     padding-bottom: $spacing-large;
-//     border-left:1px solid black;
-//
-//     &:last-of-type {
-//       border:none;
-//     }
-//
-//     .step-title{
-//       @include secondary-font(400);
-//       font-size:1.2rem;
-//       margin-bottom: $spacing-small;
-//     }
-//   }
-// }
 </style>

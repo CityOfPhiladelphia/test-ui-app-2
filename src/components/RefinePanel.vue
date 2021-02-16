@@ -1,8 +1,9 @@
 <template>
   <div
-    id="sticky-div"
+    id="refine-div"
     :class="{ 'refine-open': refineOpen }"
   >
+  <!-- class="refine-panel" -->
   <!-- class="cell medium-cell-block-container bg-ghost-gray refine-panel" -->
     <div>
       <!-- <fieldset class="cell"> -->
@@ -472,7 +473,13 @@ export default {
   display: flex;
   flex-direction: row;
   padding-top: 2px;
-  // margin-left: -15px;
+}
+
+#refine-div {
+  height: 100px;
+  width: 100%;
+  position: fixed;
+  left: 0;
 }
 
 $refine-panel-height: 19vh;
@@ -540,14 +547,11 @@ $refine-panel-height: 19vh;
       padding-top: 0px;
     }
     &:last-of-type{
-      // border-bottom: none;
       margin-bottom: 10px;
     }
   }
 
   .service-group-holder-x{
-    // padding: 2px;
-    // padding-top: 4px;
     padding-left: 16px;
     padding-right: 10px;
     border-right: 1px solid black;
@@ -564,7 +568,6 @@ $refine-panel-height: 19vh;
   }
 
   .service-list{
-    // margin-top: 0.5rem;
     input{
       margin-right: -2rem;
     }
