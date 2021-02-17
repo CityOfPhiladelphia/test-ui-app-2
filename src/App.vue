@@ -1,43 +1,51 @@
 <template>
-  <div class="app">
-    <app-header
-      :app-title="$config.app.title"
-      :is-sticky="true"
+  <div
+    id="app"
+    class="app"
+  >
+    <div
+      class="header-holder"
     >
-    <!-- :branding-image="brandingImage"
-    :branding-link="brandingLink" -->
-      <!-- <mobile-nav slot="mobile-nav">
-        <ul>
-          <li>
-            <a href="/home">Home</a>
-          </li>
-          <li>
-            <a href="/about">About</a>
-          </li>
-        </ul>
-      </mobile-nav> -->
-      <input-form slot="textbox-form">
-        <div class="columns">
-          <textbox
-            v-model="myValue"
-            class="column is-10"
-            placeholder="Search an address"
-            label="Search an address in Philadelphia"
-          />
-          <button
-            slot="submit"
-            class="button is-dark is-large"
-            @click.prevent="handleSubmit"
-          >
-            Submit
-          </button>
-        </div>
-      </input-form>
-    </app-header>
+      <app-header
+        :app-title="$config.app.title"
+        :is-sticky="false"
+      >
 
-    <main
+      <!-- :branding-image="brandingImage"
+      :branding-link="brandingLink" -->
+        <!-- <mobile-nav slot="mobile-nav">
+          <ul>
+            <li>
+              <a href="/home">Home</a>
+            </li>
+            <li>
+              <a href="/about">About</a>
+            </li>
+          </ul>
+        </mobile-nav> -->
+        <input-form slot="textbox-form">
+          <div class="columns">
+            <textbox
+              v-model="myValue"
+              class="column is-10"
+              placeholder="Search an address"
+              label="Search an address in Philadelphia"
+            />
+            <button
+              slot="submit"
+              class="button is-dark is-large"
+              @click.prevent="handleSubmit"
+            >
+              Submit
+            </button>
+          </div>
+        </input-form>
+      </app-header>
+    </div>
+
+    <!-- <main
       class="no-padding main-container"
-    >
+    > -->
       <div
         v-if="refineEnabled"
         :class="refinePanelClass"
@@ -95,22 +103,25 @@
 
       </div> -->
 
-    </main>
-
-    <app-footer
-      id="app-footer"
-      :is-sticky="true"
-      :is-hidden-mobile="true"
+    <!-- </main> -->
+    <div
+      class="footer-holder"
     >
-      <ul>
-        <li>
-          <a href="/about">About</a>
-        </li>
-        <li>
-          <a href="/terms-and-conditions">Terms & Conditions</a>
-        </li>
-      </ul>
-    </app-footer>
+      <app-footer
+        id="app-footer"
+        :is-sticky="false"
+        :is-hidden-mobile="true"
+      >
+        <ul>
+          <li>
+            <a href="/about">About</a>
+          </li>
+          <li>
+            <a href="/terms-and-conditions">Terms & Conditions</a>
+          </li>
+        </ul>
+      </app-footer>
+    </div>
 
   </div>
 </template>
@@ -367,30 +378,30 @@ export default {
     },
   },
   watch: {
-    isMobile(nextIsMobile) {
-      if (nextIsMobile) {
-        console.log('is mobile');
-        this.handleResize();
-      }
-    },
-    isTablet(nextIsTablet) {
-      if (nextIsTablet) {
-        console.log('is tablet');
-        this.handleResize();
-      }
-    },
-    isDesktop(nextIsDesktop) {
-      if (nextIsDesktop) {
-        console.log('is desktop');
-        this.handleResize();
-      }
-    },
-    isWideScreen(nextIsWidescreen) {
-      if (nextIsWidescreen) {
-        console.log('is widescreen');
-        this.handleResize();
-      }
-    },
+    // isMobile(nextIsMobile) {
+    //   if (nextIsMobile) {
+    //     console.log('is mobile');
+    //     this.handleResize();
+    //   }
+    // },
+    // isTablet(nextIsTablet) {
+    //   if (nextIsTablet) {
+    //     console.log('is tablet');
+    //     this.handleResize();
+    //   }
+    // },
+    // isDesktop(nextIsDesktop) {
+    //   if (nextIsDesktop) {
+    //     console.log('is desktop');
+    //     this.handleResize();
+    //   }
+    // },
+    // isWideScreen(nextIsWidescreen) {
+    //   if (nextIsWidescreen) {
+    //     console.log('is widescreen');
+    //     this.handleResize();
+    //   }
+    // },
     sourcesWatched(nextSourcesWatched) {
       console.log('watch sourcesWatched, nextSourcesWatched:', nextSourcesWatched);
       if (!nextSourcesWatched.includes(null)) {
@@ -472,9 +483,9 @@ export default {
   },
 
 
-  beforeDestroy() {
-    window.removeEventListener('resize', this.handleResize);
-  },
+  // beforeDestroy() {
+  //   window.removeEventListener('resize', this.handleResize);
+  // },
   methods: {
     // handleResize () {
     //   console.log('handleResize is starting');
@@ -483,77 +494,36 @@ export default {
     //   Vue.nextTick(function () {
     //     let header = document.querySelector('#app-header');
     //     let footer = document.querySelector('#app-footer');
-    //     let switchButton = document.querySelector('#switch-button');
     //     let main = document.querySelector('main');
-    //     let refineDiv = document.querySelector('#refine-div');
-    //     let columnDiv = document.querySelector('#column-div');
-    //     let refineDivOffsetHeight = refineDiv.offsetHeight || 0;
+    //     let refine = document.querySelector('.refine-panel-holder');
+    //     let locations = document.querySelector('.locations-and-map-panels-holder');
     //     let headerOffsetHeight = header.offsetHeight || 0;
-    //     let headerClientHeight = header.clientHeight || 0;
-    //     let headerInnerHeight = header.clientHeight || 0;
     //     let footerOffsetHeight = 0;
     //     if (footer !== null) {
     //       footerOffsetHeight = footer.offsetHeight;
     //     }
-    //     let switchButtonOffsetHeight = switchButton.offsetHeight;
-    //     let offsetHeight;
+    //     let refineOffsetHeight = 0;
+    //     if (refine !== null) {
+    //       refineOffsetHeight = refine.offsetHeight;
+    //       // refineOffsetHeight = refine.height;
+    //     }
+    //     // let offsetHeight;
     //     if (isMobile) {
-    //       let offsetHeight = headerOffsetHeight  + switchButtonOffsetHeight + refineDivOffsetHeight;
-    //       console.log('handleResize isMobile, offsetHeight:', offsetHeight, 'headerClientHeight:', headerClientHeight, 'headerOffsetHeight:', headerOffsetHeight, 'footerOffsetHeight:', footerOffsetHeight, 'switchButtonOffsetHeight:', switchButtonOffsetHeight);
+    //       let offsetHeight = headerOffsetHeight;
+    //       console.log('handleResize isMobile, header:', header, 'offsetHeight:', offsetHeight, 'headerOffsetHeight:', headerOffsetHeight, 'footerOffsetHeight:', footerOffsetHeight);
+    //       // main.style['min-height'] = `calc(100vh - ${headerOffsetHeight}px)`;
+    //       main.style['height'] = `calc(100vh - ${headerOffsetHeight}px)`;
+    //       locations.style['height'] = `calc(100vh - ${headerOffsetHeight}px)`;
     //     } else {
     //       let offsetHeight = headerOffsetHeight + footerOffsetHeight;
-    //       let offsetHeight2 = headerOffsetHeight + refineDivOffsetHeight;
-    //       console.log('handleResize is NOT mobile, refineDiv:', refineDiv, 'refineDivOffsetHeight:', refineDivOffsetHeight, 'offsetHeight2:', offsetHeight2, 'offsetHeight:', offsetHeight, 'headerClientHeight:', headerClientHeight, 'headerOffsetHeight:', headerOffsetHeight, 'footerOffsetHeight:', footerOffsetHeight, 'switchButtonOffsetHeight:', switchButtonOffsetHeight);
+    //       // let offsetHeight = headerOffsetHeight + refineOffsetHeight + footerOffsetHeight;
+    //       console.log('handleResize is NOT mobile, offsetHeight:', offsetHeight, 'headerOffsetHeight:', headerOffsetHeight, 'refineOffsetHeight:', refineOffsetHeight, 'footerOffsetHeight:', footerOffsetHeight);
+    //       // main.style['min-height'] = `calc(100vh - ${offsetHeight}px)`;
     //       main.style['height'] = `calc(100vh - ${offsetHeight}px)`;
-    //       main.style['padding-bottom'] = '0px';
-    //       main.style['margin-bottom'] = '0px';
-    //       refineDiv.style['top'] = headerOffsetHeight + 'px';
-    //       columnDiv.style['margin-top'] = offsetHeight2 + 'px';
-    //       columnDiv.style['height'] = `calc(100vh - ${offsetHeight2}px)`;
+    //       locations.style['height'] = `calc(100vh - ${offsetHeight}px)`;
     //     }
-    //     // console.log('App.vue handleResize, offsetHeight:', offsetHeight, 'headerOffsetHeight:', headerOffsetHeight, 'footerOffsetHeight:', footerOffsetHeight);
-    //     console.log('end of handleResize');
     //   });
-    //
     // },
-
-    handleResize () {
-      console.log('handleResize is starting');
-      //wait for dom to finish updating
-      let isMobile = this.isMobile;
-      Vue.nextTick(function () {
-        let header = document.querySelector('#app-header');
-        let footer = document.querySelector('#app-footer');
-        let main = document.querySelector('main');
-        let refine = document.querySelector('.refine-panel-holder');
-        let locations = document.querySelector('.locations-and-map-panels-holder');
-        let headerOffsetHeight = header.offsetHeight || 0;
-        let footerOffsetHeight = 0;
-        if (footer !== null) {
-          footerOffsetHeight = footer.offsetHeight;
-        }
-        let refineOffsetHeight = 0;
-        if (refine !== null) {
-          refineOffsetHeight = refine.offsetHeight;
-          // refineOffsetHeight = refine.height;
-        }
-        // let offsetHeight;
-        if (isMobile) {
-          let offsetHeight = headerOffsetHeight;
-          console.log('handleResize isMobile, header:', header, 'offsetHeight:', offsetHeight, 'headerOffsetHeight:', headerOffsetHeight, 'footerOffsetHeight:', footerOffsetHeight);
-          // main.style['min-height'] = `calc(100vh - ${headerOffsetHeight}px)`;
-          main.style['height'] = `calc(100vh - ${headerOffsetHeight}px)`;
-          locations.style['height'] = `calc(100vh - ${headerOffsetHeight}px)`;
-        } else {
-          let offsetHeight = headerOffsetHeight + footerOffsetHeight;
-          // let offsetHeight = headerOffsetHeight + refineOffsetHeight + footerOffsetHeight;
-          console.log('handleResize is NOT mobile, offsetHeight:', offsetHeight, 'headerOffsetHeight:', headerOffsetHeight, 'refineOffsetHeight:', refineOffsetHeight, 'footerOffsetHeight:', footerOffsetHeight);
-          // main.style['min-height'] = `calc(100vh - ${offsetHeight}px)`;
-          main.style['height'] = `calc(100vh - ${offsetHeight}px)`;
-          locations.style['height'] = `calc(100vh - ${offsetHeight}px)`;
-        }
-      });
-    },
 
     handleSubmit() {
       this.$controller.handleSearchFormSubmit(this.myValue);
@@ -784,35 +754,33 @@ export default {
 <style lang="scss">
 @import "./assets/scss/main.scss";
 
+html, body {
+  box-sizing: border-box;
+  height: 100%;
+}
+
 #app {
+  height: 100%;
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #000000;
+  display: flex;
+  display: -ms-flexbox;
+  flex-direction: column;
 }
 
-.container {
-  grid-gap: 1px;
+.header-holder {
+  background-color: blue;
+}
+
+.footer-holder {
+  background-color: blue;
+  margin-top: auto;
 }
 
 .no-padding {
   padding: 0px !important;
-}
-
-.main-container {
-  display: flex;
-  display: -ms-flexbox;
-  flex-direction: column;
-  // background-color: red;
-}
-
-.locations-and-map-panels-holder {
-  flex-grow: 1;
-  display: flex;
-  display: -ms-flexbox;
-  flex-direction: row;
-  margin: 0px !important;
-  // background-color: yellow;
 }
 
 .i18n-panel-holder {
@@ -828,13 +796,50 @@ export default {
   background-color: #f0f0f0;
 }
 
-.locations-panel-holder {
+.locations-and-map-panels-holder {
   overflow-y: scroll;
+  min-height: 0px;
+  flex-grow: 1;
+  // display: flex;
+  // display: -ms-flexbox;
+  // flex-direction: row;
+  margin: 0px !important;
+  // background-color: yellow;
+}
+
+.locations-panel-holder {
+  min-height: 0px;
   padding: 0px;
+  overflow-y: scroll;
   // background-color: #88d8b0;
 }
 
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+  /* IE10+ CSS styles go here */
+
+  @media (min-width: 750px) {
+    .locations-and-map-panels-holder {
+      overflow-y: hidden;
+      height: 100px;
+    }
+  }
+  @media (max-width: 749px) {
+    .locations-and-map-panels-holder {
+      height: 100px;
+    }
+    .locations-panel-holder {
+      overflow-y: hidden;
+    }
+  }
+
+}
+
+.locations-panel {
+  overflow-y: hidden;
+}
+
 .map-panel-holder {
+  height: 100%;
   padding: 0px;
   // background-color: #ff6f69;
 }
