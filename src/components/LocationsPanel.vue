@@ -335,7 +335,8 @@ export default {
 <style lang="scss">
 
 .locations-panel{
-  overflow-y: auto;
+  // overflow-y: auto;
+  // overflow-y: scroll;
   // height: calc(100vh - 192px);
   .detail{
     margin-bottom: 1rem;

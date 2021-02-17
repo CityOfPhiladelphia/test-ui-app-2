@@ -26,6 +26,7 @@ const config = {
   map: {
     containerClass: 'map-container',
   },
+  markerType: 'circle-marker',
   dataSources: {
     covidTestingSites,
   },

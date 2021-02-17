@@ -1,11 +1,13 @@
 <template>
   <div
-    id="refine-div"
-    :class="{ 'refine-open': refineOpen }"
+    id="refine-panel-component"
+    class="refine-panel"
   >
+  <!-- id="refine-div"
+  :class="{ 'refine-open': refineOpen }" -->
   <!-- class="refine-panel" -->
   <!-- class="cell medium-cell-block-container bg-ghost-gray refine-panel" -->
-    <div>
+    <!-- <div> -->
       <!-- <fieldset class="cell"> -->
         <div
           class="refine-title"
@@ -264,7 +266,7 @@
         </div>
 
       <!-- </fieldset> -->
-    </div>
+    <!-- </div> -->
   </div>
 </template>
 <script>
@@ -467,6 +469,7 @@ export default {
   },
 };
 </script>
+
 <style lang="scss">
 
 .a-flex-div {
@@ -475,12 +478,12 @@ export default {
   padding-top: 2px;
 }
 
-#refine-div {
-  height: 100px;
-  width: 100%;
-  position: fixed;
-  left: 0;
-}
+// #refine-div {
+//   height: 100px;
+//   width: 100%;
+//   position: fixed;
+//   left: 0;
+// }
 
 $refine-panel-height: 19vh;
 .refine-panel{
